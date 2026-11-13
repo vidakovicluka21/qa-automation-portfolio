@@ -20,7 +20,7 @@ test('GET - API should respond within 2000ms', async ({ request }) => {
 test('GET - average API response time', async ({ request }) => {
     const responseTimes: number[] = [];
   
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 20; i++) {
       const startTime = Date.now();
   
       const response = await request.get(
@@ -44,6 +44,19 @@ test('GET - average API response time', async ({ request }) => {
     const averageTime = totalTime / responseTimes.length;
   
     console.log(`Average response time: ${averageTime}ms`);
+
+    const sortedTimes = [...responseTimes].sort((a, b) => a - b);
+
+    const minTime = sortedTimes[0];
+    const maxTime = sortedTimes[sortedTimes.length - 1];
+
+    const p95Index = Math.ceil(0.95 * sortedTimes.length) - 1;
+    const p95Time = sortedTimes[p95Index];
+
+    console.log(`Minimum response time: ${minTime}ms`);
+    console.log(`Maximum response time: ${maxTime}ms`);
+    console.log(`P95 response time: ${p95Time}ms`);
+
   
     expect(averageTime).toBeLessThan(2000);
   });
