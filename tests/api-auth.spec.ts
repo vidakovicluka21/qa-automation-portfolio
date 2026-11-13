@@ -1,4 +1,3 @@
-
 import { test, expect } from '@playwright/test';
 import { Buffer } from 'node:buffer';
 
@@ -45,4 +44,10 @@ test('Basic Auth - invalid password', async ({ request }) => {
     expect(response.status()).toBe(401);
   });
   
-  
+test('Authorization - investigate 403 Forbidden', async ({ request }) => {
+  const response = await request.get(
+    'https://httpbin.org/status/403'
+  );
+
+  expect(response.status()).toBe(403);
+});
