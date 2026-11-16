@@ -36,10 +36,7 @@ test('GET - average API response time', async ({ request }) => {
       console.log(`Request ${i + 1}: ${responseTime}ms`);
     }
   
-    const totalTime = responseTimes.reduce(
-      (sum, time) => sum + time,
-      0
-    );
+    const totalTime = responseTimes.reduce((sum, time) => sum + time, 0);
   
     const averageTime = totalTime / responseTimes.length;
   
@@ -58,6 +55,8 @@ test('GET - average API response time', async ({ request }) => {
     console.log(`P95 response time: ${p95Time}ms`);
 
   
-    expect(averageTime).toBeLessThan(2000);
+    expect(averageTime).toBeLessThan(500);
+    expect(maxTime).toBeLessThan(1000);
+    expect(p95Time).toBeLessThan(300);
   });
   

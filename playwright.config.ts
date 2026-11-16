@@ -1,4 +1,11 @@
 import { defineConfig, devices } from '@playwright/test';
+import 'dotenv/config';
+
+const apiBaseURL = process.env.API_BASE_URL;
+
+if (!apiBaseURL) {
+  throw new Error('Missing required environment variable: API_BASE_URL');
+}
 
 /**
  * Read environment variables from file.
@@ -27,7 +34,7 @@ export default defineConfig({
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
     // baseURL: 'http://localhost:3000',
-    baseURL: 'https://jsonplaceholder.typicode.com',
+    baseURL: apiBaseURL,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
   },
