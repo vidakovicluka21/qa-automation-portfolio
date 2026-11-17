@@ -1,5 +1,16 @@
 import { defineConfig, devices } from '@playwright/test';
-import 'dotenv/config';
+import dotenv from 'dotenv';
+
+const environment = process.env.TEST_ENV ?? 'dev';
+
+if (!['dev', 'staging'].includes(environment)) {
+  throw new Error(`Unsupported environment: ${environment}`);
+}
+
+dotenv.config({
+  path: `.env.${environment}`,
+  override: true,
+});
 
 const apiBaseURL = process.env.API_BASE_URL;
 

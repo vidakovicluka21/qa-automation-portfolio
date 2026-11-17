@@ -1,38 +1,62 @@
 import { test, expect } from '@playwright/test';
 
-test('Checkout is blocked when first name is empty', async ({ page }) => {
+test.describe('Checkout validation', () => {
 
-  // Scenario: Checkout is blocked when first name is empty
+  test.beforeEach(async ({ page }) => {
+    await page.goto('https://www.saucedemo.com/');
 
-  // Open SauceDemo
-  await page.goto('https://www.saucedemo.com/');
+    await page.getByPlaceholder('Username').fill('standard_user');
+    await page.getByPlaceholder('Password').fill('secret_sauce');
+    await page.getByRole('button', { name: 'Login' }).click();
+    await expect(page).toHaveURL(/inventory.html/);
 
-  // Login
-  await page.getByPlaceholder('Username').fill('standard_user');
-  await page.getByPlaceholder('Password').fill('secret_sauce');
-  await page.getByRole('button', { name: 'Login' }).click();
-  await expect(page).toHaveURL(/inventory.html/);
+    await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
+    await expect(page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1');
 
-  // Add product to cart
-  await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
-  await expect(page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1');
+    await page.locator('[data-test="shopping-cart-link"]').click();
+    await expect(page).toHaveURL(/cart.html/);
 
-  // Open shopping cart
-  await page.locator('[data-test="shopping-cart-link"]').click();
-  await expect(page).toHaveURL(/cart.html/);
-  await expect(page.getByText('Sauce Labs Backpack', { exact: true })).toBeVisible();
+    await page.locator('[data-test="checkout"]').click();
+    await expect(page).toHaveURL(/checkout-step-one.html/);
+  });
 
-  // Checkout
-  await page.locator('[data-test="checkout"]').click();
-  await expect(page).toHaveURL(/checkout-step-one.html/);
-  // Fill in checkout form with empty name
-  await page.getByPlaceholder('First Name').fill('');
-  await page.getByPlaceholder('Last Name').fill('Doe');
-  await page.getByPlaceholder('ZIP/Postal Code').fill('10000');
-  await page.getByRole('button', { name: 'Continue' }).click();
-  await expect(page).toHaveURL(/checkout-step-one.html/);
+  test('First name is required', async ({ page }) => {
+    // Leave First Name empty
+    await page.getByPlaceholder('Last Name').fill('Doe');
+    await page.getByPlaceholder('ZIP/Postal Code').fill('10000');
 
-  // verify error message is displayed
-  await expect(page.getByText('Error: First Name is required', { exact: true })).toBeVisible();
-  
-});    
+    await page.getByRole('button', { name: 'Continue' }).click();
+
+    await expect(page).toHaveURL(/checkout-step-one.html/);
+    await expect(page.locator('[data-test="error"]')).toHaveText(
+      'Error: First Name is required'
+    );
+  });
+
+  test('Last name is required', async ({ page }) => {
+    await page.getByPlaceholder('First Name').fill('John');
+    // Leave Last Name empty
+    await page.getByPlaceholder('ZIP/Postal Code').fill('10000');
+
+    await page.getByRole('button', { name: 'Continue' }).click();
+
+    await expect(page).toHaveURL(/checkout-step-one.html/);
+    await expect(page.locator('[data-test="error"]')).toHaveText(
+      'Error: Last Name is required'
+    );
+  });
+
+  test('Postal code is required', async ({ page }) => {
+    await page.getByPlaceholder('First Name').fill('John');
+    await page.getByPlaceholder('Last Name').fill('Doe');
+    // Leave Postal Code empty
+
+    await page.getByRole('button', { name: 'Continue' }).click();
+
+    await expect(page).toHaveURL(/checkout-step-one.html/);
+    await expect(page.locator('[data-test="error"]')).toHaveText(
+      'Error: Postal Code is required'
+    );
+  });
+
+});

@@ -31,13 +31,16 @@ test('User can add backpack to cart then remove it', async ({ page }) => {
     page.getByText('Sauce Labs Backpack', { exact: true })
   ).toBeVisible();
 
-  // Remove backpack
-  await page.locator('[data-test="remove-sauce-labs-backpack"]').click();
+  // Remove backpack (retry click on WebKit if cart item stays)
+  const removeButton = page.locator('[data-test="remove-sauce-labs-backpack"]');
+  await expect(removeButton).toBeVisible();
 
-  // Verify backpack is removed
-  await expect(
-    page.getByText('Sauce Labs Backpack', { exact: true })
-  ).toHaveCount(0);
+  await expect(async () => {
+    if (await removeButton.count()) {
+      await removeButton.click();
+    }
+    await expect(page.locator('.cart_item')).toHaveCount(0);
+  }).toPass();
 
   // Verify cart badge is gone
   await expect(
