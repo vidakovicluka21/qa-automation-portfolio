@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { LoginPage } from '../pages/LoginPage';
+import { LoginPage } from '../../../pages/LoginPage';
 
 test('User can login using page object model', async ({ page }) => {
   const loginPage = new LoginPage(page);

@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { PostsApi } from '../api/PostsApi';
+import { PostsApi } from '../../api/PostsApi';
 
 const postIds = [1, 2, 3, 10];
 

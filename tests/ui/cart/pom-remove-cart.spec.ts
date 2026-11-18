@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
-import { LoginPage } from '../pages/LoginPage';
-import { InventoryPage } from '../pages/InventoryPage';
-import { CartPage } from '../pages/CartPage';
+import { LoginPage } from '../../../pages/LoginPage';
+import { InventoryPage } from '../../../pages/InventoryPage';
+import { CartPage } from '../../../pages/CartPage';
 
 test('User can remove backpack from cart using page object model', async ({ page }) => {
     const loginPage = new LoginPage(page);// Initialize login page

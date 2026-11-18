@@ -6,15 +6,10 @@ type ApiFixtures = {
 };
 
 export const test = base.extend<ApiFixtures>({
-    postsApi: async ({ request }, use) => {
-        console.log('SETUP: Creating PostsApi client');
-
-        const postsApi = new PostsApi(request);
-
-        await use(postsApi);
-
-        console.log('TEARDOWN: PostsApi fixture finished');
-    },
+  postsApi: async ({ request }, use) => {
+    const postsApi = new PostsApi(request);
+    await use(postsApi);
+  },
 });
 
 export { expect };

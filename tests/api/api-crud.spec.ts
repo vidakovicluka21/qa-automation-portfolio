@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { PostsApi } from '../api/PostsApi';
+import { PostsApi } from '../../api/PostsApi';
 
 test('GET - should retrieve an existing post', async ({ request }) => {
     const postsApi = new PostsApi(request);

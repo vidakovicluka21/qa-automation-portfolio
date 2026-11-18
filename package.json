@@ -1,12 +1,19 @@
 {
   "name": "qa-automation-portfolio",
   "version": "1.0.0",
-  "description": "",
+  "description": "Playwright QA automation portfolio — UI (SauceDemo) and API tests",
   "main": "index.js",
-  "scripts": {"test:dev": "cross-env TEST_ENV=dev playwright test --project=chromium",
-  "test:staging": "cross-env TEST_ENV=staging playwright test --project=chromium"},
-  "keywords": [],
-  "author": "",
+  "scripts": {
+    "test": "playwright test",
+    "test:chromium": "playwright test --project=chromium",
+    "test:dev": "cross-env TEST_ENV=dev playwright test --project=chromium",
+    "test:staging": "cross-env TEST_ENV=staging playwright test --project=chromium",
+    "test:ui": "playwright test tests/ui --project=chromium",
+    "test:api": "playwright test tests/api --project=chromium",
+    "report": "playwright show-report"
+  },
+  "keywords": ["playwright", "qa", "automation", "typescript"],
+  "author": "Luka Vidaković",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
