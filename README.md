@@ -1,5 +1,7 @@
 # QA Automation Portfolio
 
+[![Playwright Tests](https://github.com/vidakovicluka21/qa-automation-portfolio/actions/workflows/playwright.yml/badge.svg)](https://github.com/vidakovicluka21/qa-automation-portfolio/actions/workflows/playwright.yml)
+
 Playwright + TypeScript automation portfolio showcasing practical UI and API testing, reusable test architecture, and continuous integration.
 
 ## What this project shows
