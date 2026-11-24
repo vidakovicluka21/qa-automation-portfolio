@@ -1,6 +1,6 @@
 # QA Automation Portfolio
 
-Playwright + TypeScript automation portfolio demonstrating UI and API testing practices used in junior/mid QA Automation roles.
+Playwright + TypeScript automation portfolio showcasing practical UI and API testing, reusable test architecture, and continuous integration.
 
 ## What this project shows
 
